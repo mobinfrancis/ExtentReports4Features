@@ -7,6 +7,7 @@ import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 import com.aventstack.extentreports.ExtentReports;
@@ -30,7 +31,8 @@ public class SampleTest1 {
 		parentReportsFolderPath = System.getProperty("user.dir") + File.separator + "reports" + File.separator + "Run_"
 				+ DateTimeUtility.getFormattedCurrentDateTime("dd-MMM-yyyy_hh-mm-ss_aa") + File.separator;
 		String extentReportsFolderPath = parentReportsFolderPath + "HTML Results";
-		String extentReportsFilePath = extentReportsFolderPath + File.separator + testSuiteName + ".html";
+		String extentReportsFilePath = extentReportsFolderPath + File.separator + testSuiteName.getSuite().getName()
+				+ ".html";
 		File extentReportFile = new File(extentReportsFilePath);
 		ExtentHtmlReporter extentHtmlReporter = new ExtentHtmlReporter(extentReportFile);
 		extentReports = new ExtentReports();
@@ -40,6 +42,11 @@ public class SampleTest1 {
 	@AfterSuite
 	public void tearDownSampleTestSuite() {
 		extentReports.flush();
+	}
+
+	@BeforeMethod
+	public void setUp() {
+
 	}
 
 	@AfterMethod
@@ -71,12 +78,15 @@ public class SampleTest1 {
 			System.setProperty("webdriver.chrome.driver",
 					System.getProperty("user.dir") + File.separator + "drivers" + File.separator + "chromedriver.exe");
 			driver = new ChromeDriver();
-			extentTest.info("Launching the Google URL", MediaEntityBuilder
-					.createScreenCaptureFromPath(screenshotController.addScreenshotToReport(driver)).build());
 			driver.navigate().to("https://www.google.com");
-			extentTest.info("Maximizing the browser window", MediaEntityBuilder
+			screenshotController.setTestName(new Object() {
+			}.getClass().getEnclosingMethod().getName());
+			screenshotController.setScreenShotParentFolderPath(parentReportsFolderPath);
+			extentTest.info("Launched the Google URL", MediaEntityBuilder
 					.createScreenCaptureFromPath(screenshotController.addScreenshotToReport(driver)).build());
 			driver.manage().window().maximize();
+			extentTest.info("Maximized the browser window", MediaEntityBuilder
+					.createScreenCaptureFromPath(screenshotController.addScreenshotToReport(driver)).build());
 			try {
 				Thread.sleep(5000);
 			} catch (InterruptedException e) {
@@ -95,12 +105,15 @@ public class SampleTest1 {
 			System.setProperty("webdriver.chrome.driver",
 					System.getProperty("user.dir") + File.separator + "drivers" + File.separator + "chromedriver.exe");
 			driver = new ChromeDriver();
-			extentTest.info("Launching the LinkedIn URL", MediaEntityBuilder
-					.createScreenCaptureFromPath(screenshotController.addScreenshotToReport(driver)).build());
 			driver.navigate().to("https://www.linkedin.com");
-			extentTest.info("Maximizing the browser window", MediaEntityBuilder
+			screenshotController.setTestName(new Object() {
+			}.getClass().getEnclosingMethod().getName());
+			screenshotController.setScreenShotParentFolderPath(parentReportsFolderPath);
+			extentTest.info("Launched the LinkedIn URL", MediaEntityBuilder
 					.createScreenCaptureFromPath(screenshotController.addScreenshotToReport(driver)).build());
 			driver.manage().window().maximize();
+			extentTest.info("Maximizing the browser window", MediaEntityBuilder
+					.createScreenCaptureFromPath(screenshotController.addScreenshotToReport(driver)).build());
 			try {
 				Thread.sleep(5000);
 			} catch (InterruptedException e) {
