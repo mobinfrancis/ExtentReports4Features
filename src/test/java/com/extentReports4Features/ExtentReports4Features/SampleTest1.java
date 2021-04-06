@@ -1,6 +1,8 @@
 package com.extentReports4Features.ExtentReports4Features;
 
 import java.io.File;
+import java.io.IOException;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.ITestContext;
@@ -13,6 +15,7 @@ import org.testng.annotations.Test;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.MediaEntityBuilder;
+import com.aventstack.extentreports.MediaEntityModelProvider;
 import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
 
 public class SampleTest1 {
@@ -39,35 +42,9 @@ public class SampleTest1 {
 		extentReports.attachReporter(extentHtmlReporter);
 	}
 
-	@AfterSuite
-	public void tearDownSampleTestSuite() {
-		extentReports.flush();
-	}
-
 	@BeforeMethod
 	public void setUp() {
 
-	}
-
-	@AfterMethod
-	public void tearDown(ITestResult iTestResult) {
-		try {
-			screenshotController.setTestName(iTestResult.getMethod().getMethodName());
-			screenshotController.setScreenShotParentFolderPath(parentReportsFolderPath);
-			if (iTestResult.getStatus() == ITestResult.FAILURE) {
-				extentTest.fail("Overall Test Status: Failed", MediaEntityBuilder
-						.createScreenCaptureFromPath(screenshotController.addScreenshotToReport(driver)).build());
-			} else if (iTestResult.getStatus() == ITestResult.SUCCESS) {
-				this.extentTest.pass("Overall Test Status: Passed", MediaEntityBuilder
-						.createScreenCaptureFromPath(screenshotController.addScreenshotToReport(driver)).build());
-			} else if (iTestResult.getStatus() == ITestResult.SKIP) {
-				this.extentTest.pass("Overall Test Status: Skipped", MediaEntityBuilder
-						.createScreenCaptureFromPath(screenshotController.addScreenshotToReport(driver)).build());
-			}
-			driver.quit();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 	@Test
@@ -82,11 +59,9 @@ public class SampleTest1 {
 			screenshotController.setTestName(new Object() {
 			}.getClass().getEnclosingMethod().getName());
 			screenshotController.setScreenShotParentFolderPath(parentReportsFolderPath);
-			extentTest.info("Launched the Google URL", MediaEntityBuilder
-					.createScreenCaptureFromPath(screenshotController.addScreenshotToReport(driver)).build());
+			extentTest.info("Launched the Google URL", buildMediaEntityToCreateScreenCaptureFromPath());
 			driver.manage().window().maximize();
-			extentTest.info("Maximized the browser window", MediaEntityBuilder
-					.createScreenCaptureFromPath(screenshotController.addScreenshotToReport(driver)).build());
+			extentTest.info("Maximized the browser window", buildMediaEntityToCreateScreenCaptureFromPath());
 			try {
 				Thread.sleep(5000);
 			} catch (InterruptedException e) {
@@ -109,11 +84,9 @@ public class SampleTest1 {
 			screenshotController.setTestName(new Object() {
 			}.getClass().getEnclosingMethod().getName());
 			screenshotController.setScreenShotParentFolderPath(parentReportsFolderPath);
-			extentTest.info("Launched the LinkedIn URL", MediaEntityBuilder
-					.createScreenCaptureFromPath(screenshotController.addScreenshotToReport(driver)).build());
+			extentTest.info("Launched the LinkedIn URL", buildMediaEntityToCreateScreenCaptureFromPath());
 			driver.manage().window().maximize();
-			extentTest.info("Maximizing the browser window", MediaEntityBuilder
-					.createScreenCaptureFromPath(screenshotController.addScreenshotToReport(driver)).build());
+			extentTest.info("Maximizing the browser window", buildMediaEntityToCreateScreenCaptureFromPath());
 			try {
 				Thread.sleep(5000);
 			} catch (InterruptedException e) {
@@ -122,6 +95,39 @@ public class SampleTest1 {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public MediaEntityModelProvider buildMediaEntityToCreateScreenCaptureFromPath() {
+		try {
+			return MediaEntityBuilder.createScreenCaptureFromPath(screenshotController.addScreenshotToReport(driver))
+					.build();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@AfterMethod
+	public void tearDown(ITestResult iTestResult) {
+		try {
+			screenshotController.setTestName(iTestResult.getMethod().getMethodName());
+			screenshotController.setScreenShotParentFolderPath(parentReportsFolderPath);
+			if (iTestResult.getStatus() == ITestResult.FAILURE) {
+				extentTest.fail("Overall Test Status: Failed", buildMediaEntityToCreateScreenCaptureFromPath());
+			} else if (iTestResult.getStatus() == ITestResult.SUCCESS) {
+				this.extentTest.pass("Overall Test Status: Passed", buildMediaEntityToCreateScreenCaptureFromPath());
+			} else if (iTestResult.getStatus() == ITestResult.SKIP) {
+				this.extentTest.pass("Overall Test Status: Skipped", buildMediaEntityToCreateScreenCaptureFromPath());
+			}
+			driver.quit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@AfterSuite
+	public void tearDownSampleTestSuite() {
+		extentReports.flush();
 	}
 
 }
