@@ -42,6 +42,7 @@ public class SampleTest1 {
 		extentHtmlReporter = configureExtentHtmlReporter(extentHtmlReporter);
 		extentReports = new ExtentReports();
 		extentReports.attachReporter(extentHtmlReporter);
+		setSystemInfoInExtentReports(extentReports);
 	}
 
 	@BeforeMethod
@@ -115,6 +116,12 @@ public class SampleTest1 {
 		extentHtmlReporter.config().setTheme(Theme.DARK);
 		extentHtmlReporter.config().setTimeStampFormat("dd-MMM-yyyy_hh-mm-ss_aa");
 		return extentHtmlReporter;
+	}
+
+	public void setSystemInfoInExtentReports(ExtentReports extentReports) {
+		extentReports.setSystemInfo("Name", "SampleTestSuite");
+		extentReports.setSystemInfo("Browser", "Chrome");
+		extentReports.setSystemInfo("Environment", "Test");
 	}
 
 	@AfterMethod
