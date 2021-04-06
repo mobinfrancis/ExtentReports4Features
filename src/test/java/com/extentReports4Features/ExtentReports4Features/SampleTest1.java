@@ -17,6 +17,7 @@ import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.MediaEntityBuilder;
 import com.aventstack.extentreports.MediaEntityModelProvider;
 import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
+import com.aventstack.extentreports.reporter.configuration.Theme;
 
 public class SampleTest1 {
 
@@ -38,6 +39,7 @@ public class SampleTest1 {
 				+ ".html";
 		File extentReportFile = new File(extentReportsFilePath);
 		ExtentHtmlReporter extentHtmlReporter = new ExtentHtmlReporter(extentReportFile);
+		extentHtmlReporter = configureExtentHtmlReporter(extentHtmlReporter);
 		extentReports = new ExtentReports();
 		extentReports.attachReporter(extentHtmlReporter);
 	}
@@ -105,6 +107,14 @@ public class SampleTest1 {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	public ExtentHtmlReporter configureExtentHtmlReporter(ExtentHtmlReporter extentHtmlReporter) {
+		extentHtmlReporter.config().setDocumentTitle("FIMAutomation");
+		extentHtmlReporter.config().setReportName("FIMAutomation Extent Report");
+		extentHtmlReporter.config().setTheme(Theme.DARK);
+		extentHtmlReporter.config().setTimeStampFormat("dd-MMM-yyyy_hh-mm-ss_aa");
+		return extentHtmlReporter;
 	}
 
 	@AfterMethod
