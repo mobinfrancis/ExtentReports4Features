@@ -100,6 +100,31 @@ public class SampleTest1 {
 		}
 	}
 
+	@Test
+	public void test3() {
+		try {
+			System.out.println("Inside test 3");
+			extentTest = extentReports.createTest("Test3");
+			System.setProperty("webdriver.chrome.driver",
+					System.getProperty("user.dir") + File.separator + "drivers" + File.separator + "chromedriver.exe");
+			driver = new ChromeDriver();
+			driver.navigate().to("https://www.twitter.com");
+			screenshotController.setTestName(new Object() {
+			}.getClass().getEnclosingMethod().getName());
+			screenshotController.setScreenShotParentFolderPath(parentReportsFolderPath);
+			extentTest.info("Launched the Twitter URL", buildMediaEntityToCreateScreenCaptureFromPath());
+			driver.manage().window().maximize();
+			extentTest.info("Maximizing the browser window", buildMediaEntityToCreateScreenCaptureFromPath());
+			try {
+				Thread.sleep(5000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public MediaEntityModelProvider buildMediaEntityToCreateScreenCaptureFromPath() {
 		try {
 			return MediaEntityBuilder.createScreenCaptureFromPath(screenshotController.addScreenshotToReport(driver))
