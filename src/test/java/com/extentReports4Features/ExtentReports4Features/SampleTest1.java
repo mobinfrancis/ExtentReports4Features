@@ -12,12 +12,11 @@ import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
+
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.MediaEntityBuilder;
 import com.aventstack.extentreports.MediaEntityModelProvider;
-import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
-import com.aventstack.extentreports.reporter.configuration.Theme;
 
 public class SampleTest1 {
 
@@ -29,7 +28,6 @@ public class SampleTest1 {
 
 	@BeforeSuite
 	public void setUpSampleTestSuite(ITestContext testSuiteName) {
-		System.setProperty("org.freemarker.loggerLibrary", "none");
 		screenshotController = new ScreenshotController();
 		screenshotController.setTestSuiteName(testSuiteName.getSuite().getName());
 		parentReportsFolderPath = System.getProperty("user.dir") + File.separator + "reports" + File.separator + "Run_"
@@ -37,12 +35,8 @@ public class SampleTest1 {
 		String extentReportsFolderPath = parentReportsFolderPath + "HTML Results";
 		String extentReportsFilePath = extentReportsFolderPath + File.separator + testSuiteName.getSuite().getName()
 				+ ".html";
-		File extentReportFile = new File(extentReportsFilePath);
-		ExtentHtmlReporter extentHtmlReporter = new ExtentHtmlReporter(extentReportFile);
-		extentHtmlReporter = configureExtentHtmlReporter(extentHtmlReporter);
-		extentReports = new ExtentReports();
-		extentReports.attachReporter(extentHtmlReporter);
-		setSystemInfoInExtentReports(extentReports);
+		ExtentReporterNG extentReporterNG = new ExtentReporterNG();
+		extentReports = extentReporterNG.extentReportGenerator(testSuiteName, extentReportsFilePath);
 	}
 
 	@BeforeMethod
@@ -133,20 +127,6 @@ public class SampleTest1 {
 			e.printStackTrace();
 		}
 		return null;
-	}
-
-	public ExtentHtmlReporter configureExtentHtmlReporter(ExtentHtmlReporter extentHtmlReporter) {
-		extentHtmlReporter.config().setDocumentTitle("FIMAutomation");
-		extentHtmlReporter.config().setReportName("FIMAutomation Extent Report");
-		extentHtmlReporter.config().setTheme(Theme.DARK);
-		extentHtmlReporter.config().setTimeStampFormat("dd-MMM-yyyy_hh-mm-ss_aa");
-		return extentHtmlReporter;
-	}
-
-	public void setSystemInfoInExtentReports(ExtentReports extentReports) {
-		extentReports.setSystemInfo("Name", "SampleTestSuite");
-		extentReports.setSystemInfo("Browser", "Chrome");
-		extentReports.setSystemInfo("Environment", "Test");
 	}
 
 	@AfterMethod
