@@ -19,130 +19,138 @@ import com.aventstack.extentreports.MediaEntityModelProvider;
 
 public class SampleTest1 {
 
-	private ScreenshotController screenshotController;
 	private String parentReportsFolderPath;
-	private WebDriver driver;
 	private ExtentReporterNG extentReporterNG;
+	private static ThreadLocal<ExtentTest> extentTest = new ThreadLocal<ExtentTest>();
 
 	@BeforeSuite
-	public void setUpSampleTestSuite(ITestContext testSuiteName) {
-		screenshotController = new ScreenshotController();
-		screenshotController.setTestSuiteName(testSuiteName.getSuite().getName());
+	public void setUpSampleTestSuite(ITestContext iTestContext) {
+		String testSuiteName = iTestContext.getSuite().getName();
 		parentReportsFolderPath = System.getProperty("user.dir") + File.separator + "reports" + File.separator + "Run_"
 				+ DateTimeUtility.getFormattedCurrentDateTime("dd-MMM-yyyy_hh-mm-ss_aa") + File.separator;
 		String extentReportsFolderPath = parentReportsFolderPath + "HTML Results";
-		String extentReportsFilePath = extentReportsFolderPath + File.separator + testSuiteName.getSuite().getName()
-				+ ".html";
+		String extentReportsFilePath = extentReportsFolderPath + File.separator + testSuiteName + ".html";
 		extentReporterNG = new ExtentReporterNG();
 		extentReporterNG.setExtentReports(extentReportsFilePath);
 	}
 
-	@BeforeMethod
-	public void setUp() {
-
-	}
-
 	@Test
-	public void test1() {
+	public void test1(ITestContext iTestContext) {
 		try {
+			String testSuiteName = iTestContext.getSuite().getName();
+			ScreenshotController screenshotController = new ScreenshotController();
+			screenshotController.setTestSuiteName(testSuiteName);
 			System.out.println("Inside test 1");
-			ExtentTest extentTest = extentReporterNG.getExtentReports().createTest("Test1");
+			extentTest.set(extentReporterNG.getExtentReports().createTest("Test1"));
 			System.setProperty("webdriver.chrome.driver",
 					System.getProperty("user.dir") + File.separator + "drivers" + File.separator + "chromedriver.exe");
-			driver = new ChromeDriver();
+			WebDriver driver = new ChromeDriver();
 			driver.navigate().to("https://www.google.com");
 			screenshotController.setTestName(new Object() {
 			}.getClass().getEnclosingMethod().getName());
 			screenshotController.setScreenShotParentFolderPath(parentReportsFolderPath);
-			extentTest.info("Launched the Google URL", buildMediaEntityToCreateScreenCaptureFromPath());
+			extentTest.get().info("Launched the Google URL", MediaEntityBuilder
+					.createScreenCaptureFromPath(screenshotController.addScreenshotToReport(driver)).build());
 			driver.manage().window().maximize();
-			extentTest.info("Maximized the browser window", buildMediaEntityToCreateScreenCaptureFromPath());
+			extentTest.get().info("Maximized the browser window for Google", MediaEntityBuilder
+					.createScreenCaptureFromPath(screenshotController.addScreenshotToReport(driver)).build());
 			try {
 				Thread.sleep(5000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+			driver.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
 	@Test
-	public void test2() {
+	public void test2(ITestContext iTestContext) {
 		try {
+			String testSuiteName = iTestContext.getSuite().getName();
+			ScreenshotController screenshotController = new ScreenshotController();
+			screenshotController.setTestSuiteName(testSuiteName);
 			System.out.println("Inside test 2");
-			ExtentTest extentTest = extentReporterNG.getExtentReports().createTest("Test2");
+			extentTest.set(extentReporterNG.getExtentReports().createTest("Test2"));
 			System.setProperty("webdriver.chrome.driver",
 					System.getProperty("user.dir") + File.separator + "drivers" + File.separator + "chromedriver.exe");
-			driver = new ChromeDriver();
+			WebDriver driver = new ChromeDriver();
 			driver.navigate().to("https://www.linkedin.com");
 			screenshotController.setTestName(new Object() {
 			}.getClass().getEnclosingMethod().getName());
 			screenshotController.setScreenShotParentFolderPath(parentReportsFolderPath);
-			extentTest.info("Launched the LinkedIn URL", buildMediaEntityToCreateScreenCaptureFromPath());
+			extentTest.get().info("Launched the LinkedIn URL", MediaEntityBuilder
+					.createScreenCaptureFromPath(screenshotController.addScreenshotToReport(driver)).build());
 			driver.manage().window().maximize();
-			extentTest.info("Maximizing the browser window", buildMediaEntityToCreateScreenCaptureFromPath());
+			extentTest.get().info("Maximizing the browser window for LinkedIn", MediaEntityBuilder
+					.createScreenCaptureFromPath(screenshotController.addScreenshotToReport(driver)).build());
 			try {
 				Thread.sleep(5000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+			driver.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
 	@Test
-	public void test3() {
+	public void test3(ITestContext iTestContext) {
 		try {
+			String testSuiteName = iTestContext.getSuite().getName();
+			ScreenshotController screenshotController = new ScreenshotController();
+			screenshotController.setTestSuiteName(testSuiteName);
 			System.out.println("Inside test 3");
-			ExtentTest extentTest = extentReporterNG.getExtentReports().createTest("Test3");
+			extentTest.set(extentReporterNG.getExtentReports().createTest("Test3"));
 			System.setProperty("webdriver.chrome.driver",
 					System.getProperty("user.dir") + File.separator + "drivers" + File.separator + "chromedriver.exe");
-			driver = new ChromeDriver();
+			WebDriver driver = new ChromeDriver();
 			driver.navigate().to("https://www.twitter.com");
 			screenshotController.setTestName(new Object() {
 			}.getClass().getEnclosingMethod().getName());
 			screenshotController.setScreenShotParentFolderPath(parentReportsFolderPath);
-			extentTest.info("Launched the Twitter URL", buildMediaEntityToCreateScreenCaptureFromPath());
+			extentTest.get().info("Launched the Twitter URL", MediaEntityBuilder
+					.createScreenCaptureFromPath(screenshotController.addScreenshotToReport(driver)).build());
 			driver.manage().window().maximize();
-			extentTest.info("Maximizing the browser window", buildMediaEntityToCreateScreenCaptureFromPath());
+			extentTest.get().info("Maximizing the browser window for Twitter", MediaEntityBuilder
+					.createScreenCaptureFromPath(screenshotController.addScreenshotToReport(driver)).build());
 			try {
 				Thread.sleep(5000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+			driver.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	public MediaEntityModelProvider buildMediaEntityToCreateScreenCaptureFromPath() {
-		try {
-			return MediaEntityBuilder.createScreenCaptureFromPath(screenshotController.addScreenshotToReport(driver))
-					.build();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
 	@AfterMethod
-	public void tearDown(ITestResult iTestResult) {
+	public void tearDown(ITestResult iTestResult, ITestContext iTestContext) {
 		try {
-			screenshotController.setTestName(iTestResult.getMethod().getMethodName());
-			screenshotController.setScreenShotParentFolderPath(parentReportsFolderPath);
-			// if (iTestResult.getStatus() == ITestResult.FAILURE) {
-			// extentTest.fail("Overall Test Status: Failed",
-			// buildMediaEntityToCreateScreenCaptureFromPath());
-			// } else if (iTestResult.getStatus() == ITestResult.SUCCESS) {
-			// this.extentTest.pass("Overall Test Status: Passed",
-			// buildMediaEntityToCreateScreenCaptureFromPath());
-			// } else if (iTestResult.getStatus() == ITestResult.SKIP) {
-			// this.extentTest.pass("Overall Test Status: Skipped",
-			// buildMediaEntityToCreateScreenCaptureFromPath());
-			// }
-			driver.quit();
+			/*
+			 * String testSuiteName = iTestContext.getSuite().getName();
+			 * ScreenshotController screenshotController = new ScreenshotController();
+			 * screenshotController.setTestSuiteName(testSuiteName);
+			 * screenshotController.setTestName(iTestResult.getMethod().getMethodName());
+			 * screenshotController.setScreenShotParentFolderPath(parentReportsFolderPath);
+			 */
+
+			/*
+			 * if (iTestResult.getStatus() == ITestResult.FAILURE) {
+			 * extentTest.get().fail("Overall Test Status: Failed", MediaEntityBuilder
+			 * .createScreenCaptureFromPath(screenshotController.addScreenshotToReport(
+			 * driver)).build()); } else if (iTestResult.getStatus() == ITestResult.SUCCESS)
+			 * { this.extentTest.get().pass("Overall Test Status: Passed",
+			 * MediaEntityBuilder
+			 * .createScreenCaptureFromPath(screenshotController.addScreenshotToReport(
+			 * driver)).build()); } else if (iTestResult.getStatus() == ITestResult.SKIP) {
+			 * this.extentTest.get().pass("Overall Test Status: Skipped", MediaEntityBuilder
+			 * .createScreenCaptureFromPath(screenshotController.addScreenshotToReport(
+			 * driver)).build()); }
+			 */
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

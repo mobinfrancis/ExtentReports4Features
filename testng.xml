@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="SampleTestSuite">
-	<test name="Test">
+	<test name="Test" parallel="methods">
 		<classes>
 			<class
 				name="com.extentReports4Features.ExtentReports4Features.SampleTest1" />
