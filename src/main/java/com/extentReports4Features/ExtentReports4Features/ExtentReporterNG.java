@@ -2,8 +2,6 @@ package com.extentReports4Features.ExtentReports4Features;
 
 import java.io.File;
 
-import org.testng.ITestContext;
-
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
 import com.aventstack.extentreports.reporter.configuration.Theme;
@@ -12,7 +10,7 @@ public class ExtentReporterNG {
 
 	private ExtentReports extentReports;
 
-	public ExtentReports extentReportGenerator(ITestContext testSuiteName, String extentReportsFilePath) {
+	public void setExtentReports(String extentReportsFilePath) {
 		System.setProperty("org.freemarker.loggerLibrary", "none");
 		File extentReportFile = new File(extentReportsFilePath);
 		ExtentHtmlReporter extentHtmlReporter = new ExtentHtmlReporter(extentReportFile);
@@ -20,6 +18,9 @@ public class ExtentReporterNG {
 		extentReports = new ExtentReports();
 		extentReports.attachReporter(extentHtmlReporter);
 		setSystemInfoInExtentReports(extentReports);
+	}
+
+	public ExtentReports getExtentReports() {
 		return extentReports;
 	}
 

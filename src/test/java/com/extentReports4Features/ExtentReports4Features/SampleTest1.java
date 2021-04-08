@@ -13,17 +13,16 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
-import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.MediaEntityBuilder;
 import com.aventstack.extentreports.MediaEntityModelProvider;
 
 public class SampleTest1 {
 
-	private ExtentReports extentReports;
 	private ScreenshotController screenshotController;
 	private String parentReportsFolderPath;
 	private WebDriver driver;
+	private ExtentReporterNG extentReporterNG;
 
 	@BeforeSuite
 	public void setUpSampleTestSuite(ITestContext testSuiteName) {
@@ -34,8 +33,8 @@ public class SampleTest1 {
 		String extentReportsFolderPath = parentReportsFolderPath + "HTML Results";
 		String extentReportsFilePath = extentReportsFolderPath + File.separator + testSuiteName.getSuite().getName()
 				+ ".html";
-		ExtentReporterNG extentReporterNG = new ExtentReporterNG();
-		extentReports = extentReporterNG.extentReportGenerator(testSuiteName, extentReportsFilePath);
+		extentReporterNG = new ExtentReporterNG();
+		extentReporterNG.setExtentReports(extentReportsFilePath);
 	}
 
 	@BeforeMethod
@@ -47,7 +46,7 @@ public class SampleTest1 {
 	public void test1() {
 		try {
 			System.out.println("Inside test 1");
-			ExtentTest extentTest = extentReports.createTest("Test1");
+			ExtentTest extentTest = extentReporterNG.getExtentReports().createTest("Test1");
 			System.setProperty("webdriver.chrome.driver",
 					System.getProperty("user.dir") + File.separator + "drivers" + File.separator + "chromedriver.exe");
 			driver = new ChromeDriver();
@@ -72,7 +71,7 @@ public class SampleTest1 {
 	public void test2() {
 		try {
 			System.out.println("Inside test 2");
-			ExtentTest extentTest = extentReports.createTest("Test2");
+			ExtentTest extentTest = extentReporterNG.getExtentReports().createTest("Test2");
 			System.setProperty("webdriver.chrome.driver",
 					System.getProperty("user.dir") + File.separator + "drivers" + File.separator + "chromedriver.exe");
 			driver = new ChromeDriver();
@@ -97,7 +96,7 @@ public class SampleTest1 {
 	public void test3() {
 		try {
 			System.out.println("Inside test 3");
-			ExtentTest extentTest = extentReports.createTest("Test3");
+			ExtentTest extentTest = extentReporterNG.getExtentReports().createTest("Test3");
 			System.setProperty("webdriver.chrome.driver",
 					System.getProperty("user.dir") + File.separator + "drivers" + File.separator + "chromedriver.exe");
 			driver = new ChromeDriver();
@@ -151,7 +150,7 @@ public class SampleTest1 {
 
 	@AfterSuite
 	public void tearDownSampleTestSuite() {
-		extentReports.flush();
+		extentReporterNG.getExtentReports().flush();
 	}
 
 }
