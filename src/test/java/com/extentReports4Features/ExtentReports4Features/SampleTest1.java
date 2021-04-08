@@ -20,7 +20,6 @@ import com.aventstack.extentreports.MediaEntityModelProvider;
 
 public class SampleTest1 {
 
-	private ExtentTest extentTest;
 	private ExtentReports extentReports;
 	private ScreenshotController screenshotController;
 	private String parentReportsFolderPath;
@@ -48,7 +47,7 @@ public class SampleTest1 {
 	public void test1() {
 		try {
 			System.out.println("Inside test 1");
-			extentTest = extentReports.createTest("Test1");
+			ExtentTest extentTest = extentReports.createTest("Test1");
 			System.setProperty("webdriver.chrome.driver",
 					System.getProperty("user.dir") + File.separator + "drivers" + File.separator + "chromedriver.exe");
 			driver = new ChromeDriver();
@@ -73,7 +72,7 @@ public class SampleTest1 {
 	public void test2() {
 		try {
 			System.out.println("Inside test 2");
-			extentTest = extentReports.createTest("Test2");
+			ExtentTest extentTest = extentReports.createTest("Test2");
 			System.setProperty("webdriver.chrome.driver",
 					System.getProperty("user.dir") + File.separator + "drivers" + File.separator + "chromedriver.exe");
 			driver = new ChromeDriver();
@@ -98,7 +97,7 @@ public class SampleTest1 {
 	public void test3() {
 		try {
 			System.out.println("Inside test 3");
-			extentTest = extentReports.createTest("Test3");
+			ExtentTest extentTest = extentReports.createTest("Test3");
 			System.setProperty("webdriver.chrome.driver",
 					System.getProperty("user.dir") + File.separator + "drivers" + File.separator + "chromedriver.exe");
 			driver = new ChromeDriver();
@@ -134,13 +133,16 @@ public class SampleTest1 {
 		try {
 			screenshotController.setTestName(iTestResult.getMethod().getMethodName());
 			screenshotController.setScreenShotParentFolderPath(parentReportsFolderPath);
-			if (iTestResult.getStatus() == ITestResult.FAILURE) {
-				extentTest.fail("Overall Test Status: Failed", buildMediaEntityToCreateScreenCaptureFromPath());
-			} else if (iTestResult.getStatus() == ITestResult.SUCCESS) {
-				this.extentTest.pass("Overall Test Status: Passed", buildMediaEntityToCreateScreenCaptureFromPath());
-			} else if (iTestResult.getStatus() == ITestResult.SKIP) {
-				this.extentTest.pass("Overall Test Status: Skipped", buildMediaEntityToCreateScreenCaptureFromPath());
-			}
+			// if (iTestResult.getStatus() == ITestResult.FAILURE) {
+			// extentTest.fail("Overall Test Status: Failed",
+			// buildMediaEntityToCreateScreenCaptureFromPath());
+			// } else if (iTestResult.getStatus() == ITestResult.SUCCESS) {
+			// this.extentTest.pass("Overall Test Status: Passed",
+			// buildMediaEntityToCreateScreenCaptureFromPath());
+			// } else if (iTestResult.getStatus() == ITestResult.SKIP) {
+			// this.extentTest.pass("Overall Test Status: Skipped",
+			// buildMediaEntityToCreateScreenCaptureFromPath());
+			// }
 			driver.quit();
 		} catch (Exception e) {
 			e.printStackTrace();
