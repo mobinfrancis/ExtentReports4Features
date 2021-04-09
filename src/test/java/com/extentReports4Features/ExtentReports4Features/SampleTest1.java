@@ -1,7 +1,6 @@
 package com.extentReports4Features.ExtentReports4Features;
 
 import java.io.File;
-import java.io.IOException;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -9,13 +8,11 @@ import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.MediaEntityBuilder;
-import com.aventstack.extentreports.MediaEntityModelProvider;
 
 public class SampleTest1 {
 
@@ -130,27 +127,18 @@ public class SampleTest1 {
 	@AfterMethod
 	public void tearDown(ITestResult iTestResult, ITestContext iTestContext) {
 		try {
-			/*
-			 * String testSuiteName = iTestContext.getSuite().getName();
-			 * ScreenshotController screenshotController = new ScreenshotController();
-			 * screenshotController.setTestSuiteName(testSuiteName);
-			 * screenshotController.setTestName(iTestResult.getMethod().getMethodName());
-			 * screenshotController.setScreenShotParentFolderPath(parentReportsFolderPath);
-			 */
-
-			/*
-			 * if (iTestResult.getStatus() == ITestResult.FAILURE) {
-			 * extentTest.get().fail("Overall Test Status: Failed", MediaEntityBuilder
-			 * .createScreenCaptureFromPath(screenshotController.addScreenshotToReport(
-			 * driver)).build()); } else if (iTestResult.getStatus() == ITestResult.SUCCESS)
-			 * { this.extentTest.get().pass("Overall Test Status: Passed",
-			 * MediaEntityBuilder
-			 * .createScreenCaptureFromPath(screenshotController.addScreenshotToReport(
-			 * driver)).build()); } else if (iTestResult.getStatus() == ITestResult.SKIP) {
-			 * this.extentTest.get().pass("Overall Test Status: Skipped", MediaEntityBuilder
-			 * .createScreenCaptureFromPath(screenshotController.addScreenshotToReport(
-			 * driver)).build()); }
-			 */
+			String testSuiteName = iTestContext.getSuite().getName();
+			ScreenshotController screenshotController = new ScreenshotController();
+			screenshotController.setTestSuiteName(testSuiteName);
+			screenshotController.setTestName(iTestResult.getMethod().getMethodName());
+			screenshotController.setScreenShotParentFolderPath(parentReportsFolderPath);
+			if (iTestResult.getStatus() == ITestResult.FAILURE) {
+				extentTest.get().fail("Overall Test Status: Failed");
+			} else if (iTestResult.getStatus() == ITestResult.SUCCESS) {
+				extentTest.get().pass("Overall Test Status: Passed");
+			} else if (iTestResult.getStatus() == ITestResult.SKIP) {
+				extentTest.get().pass("Overall Test Status: Skipped");
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
