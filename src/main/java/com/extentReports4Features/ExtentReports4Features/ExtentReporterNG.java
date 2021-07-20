@@ -25,8 +25,8 @@ public class ExtentReporterNG {
 	}
 
 	public ExtentHtmlReporter configureExtentHtmlReporter(ExtentHtmlReporter extentHtmlReporter) {
-		extentHtmlReporter.config().setDocumentTitle("FIMAutomation");
-		extentHtmlReporter.config().setReportName("FIMAutomation Extent Report");
+		extentHtmlReporter.config().setDocumentTitle("Automator");
+		extentHtmlReporter.config().setReportName("Automator Extent Report");
 		extentHtmlReporter.config().setTheme(Theme.DARK);
 		extentHtmlReporter.config().setTimeStampFormat("dd-MMM-yyyy_hh-mm-ss_aa");
 		return extentHtmlReporter;
